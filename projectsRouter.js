@@ -56,4 +56,23 @@ router.put("/:id", (req, res) => {
       console.log("messed up updating a project", err);
     });
 });
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  Projects.remove(id)
+    .then((removedPost) => {
+      if (removedPost) {
+        res.status(200).json({ message: "post is removed" });
+      } else if (!removedPost) {
+        res
+          .status(404)
+          .json({ mesage: `project with ${id} id can not be found ` });
+      } else {
+        res.status(500).json({ error: "error removing a post" });
+      }
+    })
+    .catch((err) => {
+      console.log("error removing a post", err);
+    });
+});
 module.exports = router;
