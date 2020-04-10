@@ -121,4 +121,25 @@ router.post("/:id/actions", (req, res) => {
     });
 });
 
+router.put("/:id/actions/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  Actions.update(id, changes)
+    .then((action) => {
+      if (action) {
+        res.status(201).json(changes);
+      } else if (action === null) {
+        res
+          .status(404)
+          .json({ mesage: `project with ${id} id can not be found ` });
+      } else {
+        res.status(500).json({ error: "data cannot be retrieved" });
+      }
+    })
+    .catch((err) => {
+      console.log("messed up updating a project", err);
+    });
+});
+
 module.exports = router;
