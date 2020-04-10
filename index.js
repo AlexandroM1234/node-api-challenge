@@ -14,14 +14,12 @@ Go code!
 */
 const express = require("express");
 const projectsRouter = require("./projectsRouter");
-const actionsRouter = require("./actionsRouter");
 const server = express();
 
 // middleware
 
 server.use(express.json());
 
-server.use("/api/actions", actionsRouter);
 server.use("/api/projects", projectsRouter);
 
 server.get("/", (req, res) => {
