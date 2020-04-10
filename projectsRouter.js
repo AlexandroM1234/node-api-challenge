@@ -3,6 +3,16 @@ const Projects = require("./data/helpers/projectModel");
 const Actions = require("./data/helpers/actionModel");
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  Projects.get()
+    .then((projects) => {
+      res.status(200).json(projects);
+    })
+    .catch((err) => {
+      console.log("error retrieving all projects");
+    });
+});
+
 // gettinng projects
 router.get("/:id", (req, res) => {
   Projects.get(req.params.id)
@@ -87,10 +97,12 @@ router.delete("/:id", (req, res) => {
 router.get("/:id/actions", (req, res) => {
   Projects.getProjectActions(req.params.id)
     .then((projectActions) => {
-      if (projectActions) {
+      if (projectActions.length > 0) {
         res.status(200).json(projectActions);
-      } else {
+      } else if (projectActions.length === 0 || null) {
         res.status(404).json({ message: "project actions can not be found" });
+      } else {
+        res.status(500).json({ message: "error getting project actions" });
       }
     })
     .catch((err) => {
@@ -105,7 +117,9 @@ router.get("/:id/actions/:id", (req, res) => {
       if (projectActions) {
         res.status(200).json(projectActions);
       } else {
-        res.status(404).json({ message: "actions can not be found" });
+        res.status(404).json({
+          message: `action with id of ${req.params.id} can not be found`,
+        });
       }
     })
     .catch((err) => {
