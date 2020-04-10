@@ -24,15 +24,36 @@ router.post("/", (req, res) => {
       if (project) {
         res.status(201).json(project);
       } else if (!name || !description) {
-        res
-          .status(400)
-          .json({ message: "name or description is needed to make a project" });
+        res.status(400).json({
+          message: "name and description is needed to make a project",
+        });
       } else {
         res.status(500).json({ error: "error trying to add a new project" });
       }
     })
     .catch((err) => {
       console.log("messed up adding a new project", err);
+    });
+});
+
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  Projects.update(id, changes)
+    .then((project) => {
+      if (project) {
+        res.status(201).json(changes);
+      } else if (project === null) {
+        res
+          .status(404)
+          .json({ mesage: `project with ${id} id can not be found ` });
+      } else {
+        res.status(500).json({ error: "data cannot be retrieved" });
+      }
+    })
+    .catch((err) => {
+      console.log("messed up updating a project", err);
     });
 });
 module.exports = router;
