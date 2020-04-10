@@ -67,13 +67,13 @@ router.delete("/:id", (req, res) => {
   Projects.remove(id)
     .then((removedPost) => {
       if (removedPost) {
-        res.status(200).json({ message: "post is removed" });
+        res.status(200).json({ message: "project is removed" });
       } else if (!removedPost) {
         res
           .status(404)
           .json({ mesage: `project with ${id} id can not be found ` });
       } else {
-        res.status(500).json({ error: "error removing a post" });
+        res.status(500).json({ error: "error removing a project" });
       }
     })
     .catch((err) => {
@@ -90,11 +90,11 @@ router.get("/:id/actions", (req, res) => {
       if (projectActions) {
         res.status(200).json(projectActions);
       } else {
-        res.status(404).json({ message: "project can not be found" });
+        res.status(404).json({ message: "project actions can not be found" });
       }
     })
     .catch((err) => {
-      console.log("messed up getting the projects", err);
+      console.log("messed up getting the projects actions", err);
     });
 });
 
@@ -105,11 +105,11 @@ router.get("/:id/actions/:id", (req, res) => {
       if (projectActions) {
         res.status(200).json(projectActions);
       } else {
-        res.status(404).json({ message: "project can not be found" });
+        res.status(404).json({ message: "actions can not be found" });
       }
     })
     .catch((err) => {
-      console.log("messed up getting the projects", err);
+      console.log("messed up getting the actions", err);
     });
 });
 
@@ -124,7 +124,7 @@ router.post("/:id/actions", (req, res) => {
       } else if (!action) {
         res
           .status(404)
-          .json({ message: `project with ${project_id}id doesn't exist` });
+          .json({ message: `action with ${project_id}id doesn't exist` });
       } else if (!description || !notes) {
         res.status(400).json({ message: "missing  description or notes" });
       } else {
@@ -148,9 +148,9 @@ router.put("/:id/actions/:id", (req, res) => {
       } else if (action === null) {
         res
           .status(404)
-          .json({ mesage: `project with ${id} id can not be found ` });
+          .json({ mesage: `action with ${id} id can not be found ` });
       } else {
-        res.status(500).json({ error: "data cannot be retrieved" });
+        res.status(500).json({ error: "action cannot be retrieved" });
       }
     })
     .catch((err) => {
@@ -164,17 +164,17 @@ router.delete("/:id/actions/:id", (req, res) => {
   Actions.remove(id)
     .then((removedAction) => {
       if (removedAction) {
-        res.status(200).json({ message: "post is removed" });
-      } else if (!removedPost) {
+        res.status(200).json({ message: "action is removed" });
+      } else if (!removedAction) {
         res
           .status(404)
-          .json({ mesage: `project with ${id} id can not be found ` });
+          .json({ mesage: `action with ${id} id can not be found ` });
       } else {
-        res.status(500).json({ error: "error removing a post" });
+        res.status(500).json({ error: "error removing an action" });
       }
     })
     .catch((err) => {
-      console.log("error removing a post", err);
+      console.log("error removing an action", err);
     });
 });
 
