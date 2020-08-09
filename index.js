@@ -12,3 +12,22 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
+const express = require("express");
+const projectsRouter = require("./projectsRouter");
+const server = express();
+
+// middleware
+
+server.use(express.json());
+
+server.use("/api/projects", projectsRouter);
+
+server.get("/", (req, res) => {
+  res.send(`<h2>Let's Do This Sprint</h2>`);
+});
+
+module.exports = server;
+
+server.listen(4000, () => {
+  console.log("\n ==== SERVER IS RUNNING ON PORT 4000 ====\n ");
+});
